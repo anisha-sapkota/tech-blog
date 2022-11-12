@@ -1,0 +1,37 @@
+{
+  "name": "tech-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "seed": "node seeds/index.js",
+    "lint": "npx eslint **/*js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anisha-sapkota/tech-blog.git"
+  },
+  "author": "anisha-sapkota",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anisha-sapkota/tech-blog/issues"
+  },
+  "homepage": "https://github.com/anisha-sapkota/tech-blog#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "connect-session-sequelize": "^7.1.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1"
+  }
+}
