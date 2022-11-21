@@ -1,3 +1,4 @@
+// function for calling the login api
 const login = async (username, password) => {
   const response = await fetch('/api/login', {
     method: 'post',
@@ -15,6 +16,7 @@ const login = async (username, password) => {
   }
 };
 
+// function for handling login form submit
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
@@ -26,6 +28,7 @@ const loginFormHandler = async (event) => {
   }
 };
 
+// function for handling signup form
 const signupFormHandler = async (event) => {
   event.preventDefault();
 
@@ -46,7 +49,7 @@ const signupFormHandler = async (event) => {
       headers: { 'Content-Type': 'application/json' },
     });
     if (response.ok) {
-      // create post req to log user in upon signup
+      // login user upon successful signup
       await login(username, password);
     } else {
       alert(response.statusText);

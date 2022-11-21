@@ -56,13 +56,57 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
+router.get('/post/edit/:id', withAuth, async (req, res) => {
+  const loggedIn = req.session.logged_in ?? false;
+  try {
+    let post = await Post.findOne({
+      where: {
+        id: req.params.id,
+        user_id: req.session.user_id,
+      },
+    });
+
+    if (post) {
+      post = post.get({ plain: true });
+      post.createdAt = moment(post.createdAt)
+        .tz('Australia/Sydney')
+        .format('DD/MM/YYYY');
+    }
+
+    res.render('editPost', { loggedIn, post });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+
 router.get('/login', async (req, res) => {
   res.render('login');
 });
 
 router.get('/dashboard', withAuth, async (req, res) => {
   const loggedIn = req.session.logged_in ?? false;
-  res.render('dashboard', { loggedIn });
+  try {
+    let posts = await Post.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+      include: User,
+    });
+
+    posts = posts.map((post) => {
+      post = post.get({ plain: true });
+      post.createdAt = moment(post.createdAt)
+        .tz('Australia/Sydney')
+        .format('DD/MM/YYYY');
+      return post;
+    });
+
+    res.render('dashboard', { loggedIn, posts });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 });
 
 router.use((req, res) => {

@@ -1,3 +1,4 @@
+// function for adding comment
 const commentFormHandler = async (event) => {
   event.preventDefault();
 
@@ -22,4 +23,6 @@ const commentFormHandler = async (event) => {
   }
 };
 
-document.querySelector('#commentBtn').addEventListener('click', commentFormHandler);
+document
+  .querySelector('#commentBtn')
+  .addEventListener('click', commentFormHandler);
