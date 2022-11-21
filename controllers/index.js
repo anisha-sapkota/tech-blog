@@ -2,6 +2,7 @@ const router = require('express').Router();
 const moment = require('moment-timezone');
 const apiRoutes = require('./api');
 const { Post, User, Comment } = require('../models');
+const withAuth = require('../utils/auth');
 
 router.use('/api', apiRoutes);
 
@@ -57,6 +58,11 @@ router.get('/post/:id', async (req, res) => {
 
 router.get('/login', async (req, res) => {
   res.render('login');
+});
+
+router.get('/dashboard', withAuth, async (req, res) => {
+  const loggedIn = req.session.logged_in ?? false;
+  res.render('dashboard', { loggedIn });
 });
 
 router.use((req, res) => {
