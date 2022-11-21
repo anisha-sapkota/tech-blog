@@ -1,16 +1,15 @@
 const router = require('express').Router();
 const moment = require('moment-timezone');
 const apiRoutes = require('./api');
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 
 router.use('/api', apiRoutes);
 
-// home page (static file)
 router.get('/', async (req, res) => {
   const loggedIn = req.session.logged_in ?? false;
   try {
     let posts = await Post.findAll({
-      include: [{ model: User }],
+      include: User,
     });
 
     posts = posts.map((post) => {
@@ -28,7 +27,34 @@ router.get('/', async (req, res) => {
   }
 });
 
-// home page (static file)
+router.get('/post/:id', async (req, res) => {
+  const loggedIn = req.session.logged_in ?? false;
+  try {
+    let post = await Post.findByPk(req.params.id, {
+      include: [{ model: Comment, include: User }, User],
+    });
+
+    if (post) {
+      post = post.get({ plain: true });
+      post.createdAt = moment(post.createdAt)
+        .tz('Australia/Sydney')
+        .format('DD/MM/YYYY');
+
+      post.comments = post.comments.map((comment) => {
+        comment.createdAt = moment(comment.createdAt)
+          .tz('Australia/Sydney')
+          .format('DD/MM/YYYY');
+        return comment;
+      });
+    }
+
+    res.render('post', { loggedIn, post });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+
 router.get('/login', async (req, res) => {
   res.render('login');
 });

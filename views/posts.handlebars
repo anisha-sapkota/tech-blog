@@ -1,16 +1,19 @@
 <main class='container mx-auto flex flex-col'>
   {{#each posts as |post|}}
     <a
-      href='#'
+      href='/post/{{post.id}}'
       class='block w-full mb-2 p-4 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100'
     >
       <h2 class='mb-2 text-2xl font-bold text-gray-900 dark:text-white'>
-        {{ post.title }}
+        {{post.title}}
       </h2>
       <p class='mb-2 font-normal text-gray-700'>
-        {{ post.content }}
+        {{post.content}}
       </p>
-      <p class="italic text-sm">Posted by {{ post.user.username }} on {{ post.createdAt }}</p>
+      <p class='italic text-sm'>Posted by
+        {{post.user.username}}
+        on
+        {{post.createdAt}}</p>
     </a>
   {{/each}}
 </main>
